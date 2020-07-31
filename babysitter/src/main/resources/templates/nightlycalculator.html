@@ -5,8 +5,59 @@
     <title>Calculator</title>
 </head>
 <body>
-<h1>Calculate how much to charge</h1>
-<h3>Input form goes here</h3>
-<h1>Output goes here</h1>
+<div  align="center">
+    <h1>Calculate how much to charge</h1>
+    <form action="nightlycalculator" method="post">
+        <table>
+            <tr>
+                <td>
+                  <label for="startTime">Time you arrived:</label>
+                </td>
+                <td>
+                    <input id="startTime" type="number" name="startTime"/>
+                </td>
+                <td>
+                    <input type="radio" id="startAM" name="startAmOrPm" value="am">
+                    <label for="startAM">am</label>
+                    <input type="radio" id="startPM" name="startAmOrPm" value="pm"  checked>
+                    <label for="startPM">pm</label>
+                </td>
+            </tr>
+            <tr>
+            <td>
+                <label for="bedTime">Time child went to bed:</label>
+            </td>
+            <td>
+                <input id="bedTime" type="number" name="bedTime"/>
+            </td>
+            <td>
+                <input type="radio" id="bedAM" name="bedAmOrPm" value="am">
+                <label for="bedAM">am</label>
+                <input type="radio" id="bedPM" name="bedAmOrPm" value="pm"  checked>
+                <label for="bedPM">pm</label>
+            </td>
+        </tr>
+            <tr>
+            <td>
+                <label for="endTime">Time you left:</label>
+            </td>
+            <td>
+                <input id="endTime" type="number" name="endTime"/>
+            </td>
+            <td>
+                <input type="radio" id="endAM" name="endAmOrPm" value="am"  checked>
+                <label for="endAM">am</label>
+                <input type="radio" id="endPM" name="endAmOrPm" value="pm">
+                <label for="endPM">pm</label>
+            </td>
+        </tr>
+        </table>
+        <div align="center">
+            <input type="submit" value="Submit"/>
+        </div>
+
+
+    </form>
+</div>
 </body>
 </html>
