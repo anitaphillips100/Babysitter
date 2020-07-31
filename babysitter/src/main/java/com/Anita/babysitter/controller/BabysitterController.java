@@ -38,16 +38,25 @@ public class BabysitterController {
                 requestParams.get("endTime"), requestParams.get("endAmOrPm")
         );
 
-        // TODO: validate parameters
-        TimeRecord timeRecord = new TimeRecord(
-                Integer.parseInt(requestParams.get("startTime")),
-                requestParams.get("startAmOrPM"),
-                Integer.parseInt(requestParams.get("bedTime")),
-                requestParams.get("bedAmOrPM"),
-                Integer.parseInt( requestParams.get("endTime")),
-                requestParams.get("endAmOrPM") );
+        TimeRecord timeRecord = null;
 
-         model.addAttribute("amount", calculatorService.calculateNightlyAmount(timeRecord));
+        // TODO: validate parameters
+        try {
+                    timeRecord = new TimeRecord(
+                    Integer.parseInt(requestParams.get("startTime")),
+                    requestParams.get("startAmOrPM"),
+                    Integer.parseInt(requestParams.get("bedTime")),
+                    requestParams.get("bedAmOrPM"),
+                    Integer.parseInt(requestParams.get("endTime")),
+                    requestParams.get("endAmOrPM"));
+        }catch(Exception e){
+            log.info("Problem with input; redirecting to Calculator input page.");
+            model.addAttribute("errorMessage", "Try again. Your input was invalid.");
+            return ViewNames.NIGHTLY_CALCULATOR;
+        }
+
+        model.addAttribute("errorMessage","");
+        model.addAttribute("amount", calculatorService.calculateNightlyAmount(timeRecord));
 
         return ViewNames.NIGHTLY_RESULTS;
     }

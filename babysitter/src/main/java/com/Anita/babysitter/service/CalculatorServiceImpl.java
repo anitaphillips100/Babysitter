@@ -12,7 +12,7 @@ public class CalculatorServiceImpl implements CalculatorService {
 
         // hard-code return value for now
         String chargeAmount = "36.00";
-        
+
         return chargeAmount;
     }
 }
