@@ -2,6 +2,7 @@ package com.Anita.babysitter.controller;
 
 import com.Anita.babysitter.model.TimeRecord;
 import com.Anita.babysitter.service.CalculatorService;
+import com.Anita.babysitter.util.CalculatorInvalidInputException;
 import com.Anita.babysitter.util.MappingNames;
 import com.Anita.babysitter.util.ViewNames;
 import lombok.extern.slf4j.Slf4j;
@@ -39,28 +40,36 @@ public class BabysitterController {
         );
 
         TimeRecord timeRecord = null;
+        String amount;
 
-        // TODO: validate parameters
         try {
-                    timeRecord = new TimeRecord(
+            timeRecord = new TimeRecord(
                     Integer.parseInt(requestParams.get("startTime")),
                     requestParams.get("startAmOrPM"),
                     Integer.parseInt(requestParams.get("bedTime")),
                     requestParams.get("bedAmOrPM"),
                     Integer.parseInt(requestParams.get("endTime")),
                     requestParams.get("endAmOrPM"));
+            amount = calculatorService.calculateNightlyAmount(timeRecord);
+        }catch(CalculatorInvalidInputException e){
+            handleInvalidInputException(e, model);
+            return ViewNames.NIGHTLY_CALCULATOR;
         }catch(Exception e){
-            log.info("Problem with input; redirecting to Calculator input page.");
-            model.addAttribute("errorMessage", "Try again. Your input was invalid.");
+            handleInvalidInputException(e, model);
             return ViewNames.NIGHTLY_CALCULATOR;
         }
 
         model.addAttribute("errorMessage","");
-        model.addAttribute("amount", calculatorService.calculateNightlyAmount(timeRecord));
+        model.addAttribute("amount", amount);
 
         return ViewNames.NIGHTLY_RESULTS;
     }
 
+    private void handleInvalidInputException(Exception e, Model model){
+        // TODO: improve to allow for improved messaging to the user and logging
+        log.info("Problem with input; redirecting to Calculator input page.");
+        model.addAttribute("errorMessage", "Try again. Your input was invalid.");
+    }
 
 
 }

@@ -1,12 +1,13 @@
 package com.Anita.babysitter.service;
 
 import com.Anita.babysitter.model.TimeRecord;
+import com.Anita.babysitter.util.CalculatorInvalidInputException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CalculatorServiceImpl implements CalculatorService {
     @Override
-    public String calculateNightlyAmount(TimeRecord timeRecord) {
+    public String calculateNightlyAmount(TimeRecord timeRecord) throws CalculatorInvalidInputException {
 
         // TODO: this is where the logic to calculate the amount to charge for the the night goes
 
