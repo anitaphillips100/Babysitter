@@ -52,7 +52,7 @@ public class CalculatorServiceTest {
         }
 
         // then
-        assertEquals("104.00", amount);
+        assertEquals("56.00", amount);
     }
     // TODO: these tests need to be implemented
     // arrive after child's bedtime and before midnight, leave after midnight

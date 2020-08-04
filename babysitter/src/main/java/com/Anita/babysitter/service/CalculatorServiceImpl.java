@@ -15,7 +15,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private static final int EVENING_RATE = 12;
     private static final int BED_TIME_RATE = 8;
     private static final int AFTER_MIDNIGHT_RATE = 16;
-    private static final int EVENING_START = TimeMap.getStartNumber(TimeMap.MIN_VALID_START_TIME);
+    private static final int EVENING_START = TimeMap.MIN_VALID_START_TIME;
     private static final int AFTER_MIDNIGHT_START = TimeMap.getStartNumber("12:00 AM");
 
 
@@ -84,7 +84,7 @@ public class CalculatorServiceImpl implements CalculatorService {
                         (eveningHours*EVENING_RATE));
             }
         }
-        return amount;
+        return amount+".00";
     }
 
     private boolean valid(TimeRecord timeRecord){
