@@ -8,54 +8,59 @@
 <div  align="center">
     <h1>Calculate how much to charge</h1>
 
-    <div th:text="${errorMessage}"></div>
+    <div th:text="${errorMessage}" style="padding:5px"></div>
     <form action="nightlycalculator" method="post">
-        <table>
+        <table cellpadding="5px">
             <tr>
                 <td>
-                  <label for="startTime">Time you arrived:</label>
+                    <label for="startTime">Time you arrived:</label>
                 </td>
                 <td>
-                    <input id="startTime" type="number" name="startTime"/>
-                </td>
-                <td>
-                    <input type="radio" id="startAM" name="startAmOrPm" value="am">
-                    <label for="startAM">am</label>
-                    <input type="radio" id="startPM" name="startAmOrPm" value="pm"  checked>
-                    <label for="startPM">pm</label>
+                    <select name="startTime" id="startTime">
+                        <option
+                                th:each="key : ${T(com.Anita.babysitter.util.TimeMap).START_TIME_LIST}"
+                                th:value="${T(com.Anita.babysitter.util.TimeMap).getStartNumber(key)}"
+                                th:text="${key}">
+                        </option>
+                    </select>
                 </td>
             </tr>
             <tr>
-            <td>
-                <label for="bedTime">Time child went to bed:</label>
-            </td>
-            <td>
-                <input id="bedTime" type="number" name="bedTime"/>
-            </td>
-            <td>
-                <input type="radio" id="bedAM" name="bedAmOrPm" value="am">
-                <label for="bedAM">am</label>
-                <input type="radio" id="bedPM" name="bedAmOrPm" value="pm"  checked>
-                <label for="bedPM">pm</label>
-            </td>
-        </tr>
+                <td>
+                    <label for="bedTime">Time child went to bed *:</label>
+                </td>
+                <td>
+                    <select name="bedTime"  id="bedTime">
+                        <option
+                                th:each="key : ${T(com.Anita.babysitter.util.TimeMap).BED_TIME_LIST}"
+                                th:value="${T(com.Anita.babysitter.util.TimeMap).getBedNumber(key)}"
+                                th:text="${key}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
             <tr>
-            <td>
-                <label for="endTime">Time you left:</label>
-            </td>
-            <td>
-                <input id="endTime" type="number" name="endTime"/>
-            </td>
-            <td>
-                <input type="radio" id="endAM" name="endAmOrPm" value="am"  checked>
-                <label for="endAM">am</label>
-                <input type="radio" id="endPM" name="endAmOrPm" value="pm">
-                <label for="endPM">pm</label>
-            </td>
-        </tr>
+                <td>
+                    <label for="endTime">Time you left:</label>
+                </td>
+                <td>
+                    <select name="endTime" id="endTime" >
+                        <option
+                                th:each="key : ${T(com.Anita.babysitter.util.TimeMap).END_TIME_LIST}"
+                                th:value="${T(com.Anita.babysitter.util.TimeMap).getEndNumber(key)}"
+                                th:text="${key}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
         </table>
-        <div align="center">
-            <input type="submit" value="Submit"/>
+        <div align="center" style="padding:5px">
+            <input type="submit" value="Calculate"/>
+        </div>
+
+        <div style="padding:5px">
+            <p1>If child was asleep when you arrived, use arrival time for bedtime.</p1>
+            <p1>If child was still up when you left, use time you left for bedtime.</p1>
         </div>
 
 

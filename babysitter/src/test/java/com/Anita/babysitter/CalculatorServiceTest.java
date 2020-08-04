@@ -3,6 +3,8 @@ package com.Anita.babysitter;
 import com.Anita.babysitter.model.TimeRecord;
 import com.Anita.babysitter.service.CalculatorService;
 import com.Anita.babysitter.service.CalculatorServiceImpl;
+import com.Anita.babysitter.util.ErrorMessages;
+import com.Anita.babysitter.util.TimeMap;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +23,7 @@ public class CalculatorServiceTest {
     // arrive before child's bedtime and before midnight, leave after midnight
     public void testValidInputData1(){
         // given
-        TimeRecord timeRecord = new TimeRecord(5,"pm", 9, "pm", 2, "am");
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("09:00 PM"), TimeMap.getEndNumber("02:00 AM") );
 
         // when
         String amount = "";
@@ -56,8 +58,123 @@ public class CalculatorServiceTest {
     // ==============================================================================
 
     // out of range arrival time
+    @Test
+    public void testInvalidInputData1(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("04:00 PM"), TimeMap.getBedNumber("09:00 PM"), TimeMap.getEndNumber("02:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            // then
+            assertEquals(ErrorMessages.GENERIC_INVALID_INPUT_MSG, e.getMessage());
+            return;
+        }
+
+        // failure
+        fail("CacluatorService should have throw an exception");
+    }
+
+
     // out of range bedtime
+    @Test
+    public void testInvalidInputData2(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("04:00 PM"), TimeMap.getEndNumber("02:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            // then
+            assertEquals(ErrorMessages.GENERIC_INVALID_INPUT_MSG, e.getMessage());
+            return;
+        }
+
+        // failure
+        fail("CacluatorService should have throw an exception");
+    }
+
     // out of range leave time
+    @Test
+    public void testInvalidInputData3(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("03:00 PM"), TimeMap.getEndNumber("05:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            // then
+            assertEquals(ErrorMessages.GENERIC_INVALID_INPUT_MSG, e.getMessage());
+            return;
+        }
+
+        // failure
+        fail("CacluatorService should have throw an exception");
+    }
+
     // arrival time is equal to leave time
+    @Test
+    public void testInvalidInputData4(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("08:00 PM"), TimeMap.getEndNumber("05:00 PM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            // then
+            assertEquals(ErrorMessages.GENERIC_INVALID_INPUT_MSG, e.getMessage());
+            return;
+        }
+
+        // failure
+        fail("CacluatorService should have throw an exception");
+    }
+
     // arrival time is after leave time
+    @Test
+    public void testInvalidInputData5(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("10:00 PM"), TimeMap.getBedNumber("08:00 PM"), TimeMap.getEndNumber("09:00 PM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            // then
+            assertEquals(ErrorMessages.GENERIC_INVALID_INPUT_MSG, e.getMessage());
+            return;
+        }
+
+        // failure
+        fail("CacluatorService should have throw an exception");
+    }
+
+    // bed time is after leave time
+    @Test
+    public void testInvalidInputData6(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("12:00 AM"), TimeMap.getEndNumber("09:00 PM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            // then
+            assertEquals(ErrorMessages.GENERIC_INVALID_INPUT_MSG, e.getMessage());
+            return;
+        }
+
+        // failure
+        fail("CacluatorService should have throw an exception");
+    }
 }

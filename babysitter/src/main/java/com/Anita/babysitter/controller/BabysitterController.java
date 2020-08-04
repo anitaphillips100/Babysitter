@@ -2,9 +2,7 @@ package com.Anita.babysitter.controller;
 
 import com.Anita.babysitter.model.TimeRecord;
 import com.Anita.babysitter.service.CalculatorService;
-import com.Anita.babysitter.util.CalculatorInvalidInputException;
-import com.Anita.babysitter.util.MappingNames;
-import com.Anita.babysitter.util.ViewNames;
+import com.Anita.babysitter.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,15 +26,14 @@ public class BabysitterController {
 
     @GetMapping(MappingNames.NIGHTLY_CALCULATOR)
     public String getCalculator(){
-            return ViewNames.NIGHTLY_CALCULATOR;
+
+        return ViewNames.NIGHTLY_CALCULATOR;
     }
 
     @PostMapping(MappingNames.NIGHTLY_CALCULATOR)
     public String calculateNightlyCharge(@RequestParam Map<String,String> requestParams, Model model){
-        log.info("startTime = {} {}; bedtime = {}; {} endTime = {} {};",
-                requestParams.get("startTime"), requestParams.get("startAmOrPm"),
-                requestParams.get("bedTime"), requestParams.get("bedAmOrPm"),
-                requestParams.get("endTime"), requestParams.get("endAmOrPm")
+        log.info("startTime = {}; bedtime = {}; endTime = {};",
+                requestParams.get("startTime"), requestParams.get("bedTime"), requestParams.get("endTime")
         );
 
         TimeRecord timeRecord = null;
@@ -45,11 +42,8 @@ public class BabysitterController {
         try {
             timeRecord = new TimeRecord(
                     Integer.parseInt(requestParams.get("startTime")),
-                    requestParams.get("startAmOrPM"),
                     Integer.parseInt(requestParams.get("bedTime")),
-                    requestParams.get("bedAmOrPM"),
-                    Integer.parseInt(requestParams.get("endTime")),
-                    requestParams.get("endAmOrPM"));
+                    Integer.parseInt(requestParams.get("endTime")) );
             amount = calculatorService.calculateNightlyAmount(timeRecord);
         }catch(CalculatorInvalidInputException e){
             handleInvalidInputException(e, model);
@@ -68,7 +62,7 @@ public class BabysitterController {
     private void handleInvalidInputException(Exception e, Model model){
         // TODO: improve to allow for improved messaging to the user and logging
         log.info("Problem with input; redirecting to Calculator input page.");
-        model.addAttribute("errorMessage", "Try again. Your input was invalid.");
+        model.addAttribute("errorMessage", ErrorMessages.GENERIC_INVALID_INPUT_MSG);
     }
 
 

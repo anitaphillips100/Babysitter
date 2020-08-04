@@ -1,19 +1,38 @@
 package com.Anita.babysitter.model;
 
-public class TimeRecord {
-    int startTime;
-    String startAmOrPm;
-    int bedTime;
-    String bedAmOrPm;
-    int endTime;
-    String endAmOrPm;
+import com.Anita.babysitter.util.TimeMap;
 
-    public TimeRecord(int startTime, String startAmOrPm, int bedTime, String bedAmOrPm, int endTime, String endAmOrPm) {
+public class TimeRecord {
+
+    private int startTime;
+    private int bedTime;
+    private int endTime;
+
+    public TimeRecord(int startTime, int bedTime, int endTime){
         this.startTime = startTime;
-        this.startAmOrPm = startAmOrPm;
         this.bedTime = bedTime;
-        this.bedAmOrPm = bedAmOrPm;
         this.endTime = endTime;
-        this.endAmOrPm = endAmOrPm;
     }
+
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public int getBedTime() {
+        return bedTime;
+    }
+
+    public int getEndTime() {
+        return endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeRecord{" +
+                "startTime=" + startTime + " -> " + TimeMap.getStartTime(startTime) +
+                ", bedTime=" + bedTime + " -> " + TimeMap.getBedTime(bedTime) +
+                ", endTime=" + endTime + " -> " + TimeMap.getEndTime(endTime) +
+                '}';
+    }
+
 }
