@@ -23,7 +23,7 @@ public class CalculatorServiceTest {
     @Test
     public void testValidInputData1(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("09:00 PM"), TimeMap.getEndNumber("02:00 AM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("05:00 PM"), TimeMap.map("09:00 PM"), TimeMap.map("02:00 AM") );
 
         // when
         String amount = "";
@@ -41,7 +41,7 @@ public class CalculatorServiceTest {
     @Test
     public void testValidInputData2(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("09:00 PM"), TimeMap.getBedNumber("09:00 PM"), TimeMap.getEndNumber("02:00 AM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("09:00 PM"), TimeMap.map("09:00 PM"), TimeMap.map("02:00 AM") );
 
         // when
         String amount = "";
@@ -54,11 +54,64 @@ public class CalculatorServiceTest {
         // then
         assertEquals("56.00", amount);
     }
-    // TODO: these tests need to be implemented
+
     // arrive after child's bedtime and before midnight, leave after midnight
+    @Test
+    public void testValidInputData3(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("09:00 PM"), TimeMap.map("08:00 PM"), TimeMap.map("02:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("56.00", amount);
+    }
+
 
     // arrive before child's bedtime and at midnight, leave after midnight
+    @Test
+    public void testValidInputData4(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("12:00 AM"), TimeMap.map("01:00 AM"), TimeMap.map("02:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("32.00", amount);
+    }
+
+
     // arrive at child's bedtime and at midnight, and leave after midnight
+    @Test
+    public void testValidInputData5(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("12:00 AM"), TimeMap.map("12:00 AM"), TimeMap.map("04:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("64.00", amount);
+    }
+
+    // TODO: these tests need to be implemented
     // arrive after child's bedtime and at midnight, and leave after midnight
 
     // arrive before child's bedtime and after midnight, leave after midnight
@@ -77,7 +130,7 @@ public class CalculatorServiceTest {
     @Test
     public void testInvalidInputData1(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("04:00 PM"), TimeMap.getBedNumber("09:00 PM"), TimeMap.getEndNumber("02:00 AM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("04:00 PM"), TimeMap.map("09:00 PM"), TimeMap.map("02:00 AM") );
 
         // when
         String amount = "";
@@ -98,7 +151,7 @@ public class CalculatorServiceTest {
     @Test
     public void testInvalidInputData2(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("04:00 PM"), TimeMap.getEndNumber("02:00 AM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("05:00 PM"), TimeMap.map("04:00 PM"), TimeMap.map("02:00 AM") );
 
         // when
         String amount = "";
@@ -118,7 +171,7 @@ public class CalculatorServiceTest {
     @Test
     public void testInvalidInputData3(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("03:00 PM"), TimeMap.getEndNumber("05:00 AM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("05:00 PM"), TimeMap.map("03:00 PM"), TimeMap.map("05:00 AM") );
 
         // when
         String amount = "";
@@ -138,7 +191,7 @@ public class CalculatorServiceTest {
     @Test
     public void testInvalidInputData4(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("08:00 PM"), TimeMap.getEndNumber("05:00 PM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("05:00 PM"), TimeMap.map("08:00 PM"), TimeMap.map("05:00 PM") );
 
         // when
         String amount = "";
@@ -158,7 +211,7 @@ public class CalculatorServiceTest {
     @Test
     public void testInvalidInputData5(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("10:00 PM"), TimeMap.getBedNumber("08:00 PM"), TimeMap.getEndNumber("09:00 PM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("10:00 PM"), TimeMap.map("08:00 PM"), TimeMap.map("09:00 PM") );
 
         // when
         String amount = "";
@@ -178,7 +231,7 @@ public class CalculatorServiceTest {
     @Test
     public void testInvalidInputData6(){
         // given
-        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("12:00 AM"), TimeMap.getEndNumber("09:00 PM") );
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("05:00 PM"), TimeMap.map("12:00 AM"), TimeMap.map("09:00 PM") );
 
         // when
         String amount = "";

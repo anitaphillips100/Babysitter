@@ -19,9 +19,9 @@
                     <select name="startTime" id="startTime">
                         <option value="0" selected>Select Start Time</option>
                         <option
-                                th:each="key : ${T(com.Anita.babysitter.util.TimeMap).START_TIME_LIST}"
-                                th:value="${T(com.Anita.babysitter.util.TimeMap).getStartNumber(key)}"
-                                th:text="${key}">
+                                th:each="time : ${T(com.Anita.babysitter.util.TimeMap).getStartTimeList()}"
+                                th:value="${T(com.Anita.babysitter.util.TimeMap).map(time)}"
+                                th:text="${time}">
                         </option>
                     </select>
                 </td>
@@ -34,9 +34,9 @@
                     <select name="bedTime"  id="bedTime">
                         <option value="0" selected>Select Bed Time</option>
                         <option
-                                th:each="key : ${T(com.Anita.babysitter.util.TimeMap).BED_TIME_LIST}"
-                                th:value="${T(com.Anita.babysitter.util.TimeMap).getBedNumber(key)}"
-                                th:text="${key}">
+                                th:each="time : ${T(com.Anita.babysitter.util.TimeMap).getBedTimeList()}"
+                                th:value="${T(com.Anita.babysitter.util.TimeMap).map(time)}"
+                                th:text="${time}">
                         </option>
                     </select>
                 </td>
@@ -49,9 +49,9 @@
                     <select name="endTime" id="endTime" >
                         <option value="0" selected>Select End Time</option>
                         <option
-                                th:each="key : ${T(com.Anita.babysitter.util.TimeMap).END_TIME_LIST}"
-                                th:value="${T(com.Anita.babysitter.util.TimeMap).getEndNumber(key)}"
-                                th:text="${key}">
+                                th:each="time : ${T(com.Anita.babysitter.util.TimeMap).getEndTimeList()}"
+                                th:value="${T(com.Anita.babysitter.util.TimeMap).map(time)}"
+                                th:text="${time}">
                         </option>
                     </select>
                 </td>

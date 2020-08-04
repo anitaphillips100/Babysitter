@@ -16,7 +16,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private static final int BED_TIME_RATE = 8;
     private static final int AFTER_MIDNIGHT_RATE = 16;
     private static final int EVENING_START = TimeMap.MIN_VALID_START_TIME;
-    private static final int AFTER_MIDNIGHT_START = TimeMap.getStartNumber("12:00 AM");
+    private static final int AFTER_MIDNIGHT_START = TimeMap.map("12:00 AM");
 
 
     @Override
@@ -44,7 +44,7 @@ public class CalculatorServiceImpl implements CalculatorService {
         if(startTime >= AFTER_MIDNIGHT_START) {
             // all hours will be charged at the after midnight rate
             amount = Integer.toString(totalHours * AFTER_MIDNIGHT_RATE);
-        }else if(startTime == bedTime){
+        }else if(startTime >= bedTime){
             // child was in bed when babysitter arrived
             if(endTime <= AFTER_MIDNIGHT_START){
                 // all hours are at the bed time rate
@@ -55,7 +55,7 @@ public class CalculatorServiceImpl implements CalculatorService {
                 afterMidnightHours = endTime - AFTER_MIDNIGHT_START;
                 amount = Integer.toString((bedTimeHours*BED_TIME_RATE)+(afterMidnightHours*AFTER_MIDNIGHT_RATE));
             }
-        }else if( bedTime == endTime){
+        }else if( bedTime >= endTime){
             // child was not in bed at all
             if(endTime >= AFTER_MIDNIGHT_START ){
                 // combination of evening hours and after midnight hours
@@ -75,7 +75,7 @@ public class CalculatorServiceImpl implements CalculatorService {
                 bedTimeHours = endTime - bedTime;
                 amount = Integer.toString((eveningHours*EVENING_RATE)+(bedTimeHours*BED_TIME_RATE));
             }else{
-                // combination of evening, bedtime, and after midnight hours
+                // combination of time periods
                 afterMidnightHours = endTime - AFTER_MIDNIGHT_START;
                 bedTimeHours = AFTER_MIDNIGHT_START - bedTime;
                 eveningHours = bedTime - startTime;
@@ -93,20 +93,20 @@ public class CalculatorServiceImpl implements CalculatorService {
         boolean inputIsValid = true;
 
         int startTime = timeRecord.getStartTime();
-        if( !(startTime >= TimeMap.MIN_VALID_START_TIME && timeRecord.getStartTime() <= TimeMap.MAX_VALID_START_TIME) ){
-            log.info("Start Time {}({}) is out of range", TimeMap.getStartTime(startTime), startTime);
+        if( !(startTime >= TimeMap.MIN_VALID_START_TIME && startTime <= TimeMap.MAX_VALID_START_TIME) ){
+            log.info("Start Time {}({}) is out of range", TimeMap.map(startTime), startTime);
             inputIsValid = false;
         }
 
         int bedTime = timeRecord.getBedTime();
         if( !(bedTime >= TimeMap.MIN_VALID_BEDTIME_TIME && bedTime <=  TimeMap.MAX_VALID_BEDTIME_TIME) ){
-            log.info("Bed Time {}({}) is out of range", TimeMap.getBedTime(bedTime), bedTime);
+            log.info("Bed Time {}({}) is out of range", TimeMap.map(bedTime), bedTime);
             inputIsValid = false;
         }
 
         int endTime = timeRecord.getEndTime();
         if( !(endTime >= TimeMap.MIN_VALID_END_TIME && endTime <= TimeMap.MAX_VALID_END_TIME)){
-            log.info("End Time {}({}) is out of range", TimeMap.getEndTime(endTime), endTime);
+            log.info("End Time {}({}) is out of range", TimeMap.map(endTime), endTime);
             inputIsValid = false;
         }
 
@@ -114,13 +114,13 @@ public class CalculatorServiceImpl implements CalculatorService {
         if( inputIsValid ){
             if( startTime >= endTime ){
                 log.info("Start Time {}({}) is greater than or equal to End Time {}({})",
-                        TimeMap.getStartTime(startTime), startTime, TimeMap.getEndTime(endTime), endTime);
+                        TimeMap.map(startTime), startTime, TimeMap.map(endTime), endTime);
                 inputIsValid = false;
             }
 
             if( bedTime > endTime ){
                 log.info("Bed Time {}({}) is greater than End Time {}({})",
-                        TimeMap.getBedTime(bedTime), bedTime, TimeMap.getEndTime(endTime), endTime);
+                        TimeMap.map(bedTime), bedTime, TimeMap.map(endTime), endTime);
                 inputIsValid = false;
             }
         }

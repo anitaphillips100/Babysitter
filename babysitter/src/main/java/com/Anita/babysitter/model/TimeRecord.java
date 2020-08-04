@@ -29,9 +29,9 @@ public class TimeRecord {
     @Override
     public String toString() {
         return "TimeRecord{" +
-                "startTime=" + startTime + " -> " + TimeMap.getStartTime(startTime) +
-                ", bedTime=" + bedTime + " -> " + TimeMap.getBedTime(bedTime) +
-                ", endTime=" + endTime + " -> " + TimeMap.getEndTime(endTime) +
+                "startTime=" + startTime + " -> " + TimeMap.map(startTime) +
+                ", bedTime=" + bedTime + " -> " + TimeMap.map(bedTime) +
+                ", endTime=" + endTime + " -> " + TimeMap.map(endTime) +
                 '}';
     }
 

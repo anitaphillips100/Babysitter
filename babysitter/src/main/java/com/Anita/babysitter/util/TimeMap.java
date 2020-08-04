@@ -5,188 +5,183 @@ import java.util.ArrayList;
 public final class TimeMap {
 
     // class that maps a time string to a number using 2 corresponding ArrayList's.
-    // *_TIME_LIST and *_NUMBER_LIST are corresponding ArrayList's where the ith
-    // element of *_TIME_LIST corresponds to the ith element of *_NUMBER_LIST;
+    // TIME_LIST and NUMBER_LIST are corresponding ArrayList's where the ith
+    // element of TIME_LIST corresponds to the ith element of NUMBER_LIST;
     // These lists hold the valid times for start, bedtime, and end times.
+    // Times (in format 'HH:MM PM') are mapped to numbers to simply
+    // calculations.
 
     // This class also contains constants used to define valid time ranges
 
-    public final static ArrayList<String> START_TIME_LIST = new ArrayList<>();
-    private final static ArrayList<Integer> START_NUMBER_LIST = new ArrayList<>();
-    public final static ArrayList<String> BED_TIME_LIST = new ArrayList<>();
-    private final static ArrayList<Integer> BED_NUMBER_LIST = new ArrayList<>();
-    public final static ArrayList<String> END_TIME_LIST = new ArrayList<>();
-    private final static ArrayList<Integer> END_NUMBER_LIST = new ArrayList<>();
+    public final static ArrayList<String> TIME_LIST = new ArrayList<>();
+    private final static ArrayList<Integer> NUMBER_LIST = new ArrayList<>();
+
     public final static int MIN_VALID_START_TIME;
     public final static int MAX_VALID_START_TIME;
     public final static int MIN_VALID_BEDTIME_TIME;
     public final static int MAX_VALID_BEDTIME_TIME;
     public final static int MIN_VALID_END_TIME;
     public final static int MAX_VALID_END_TIME;
+
     public final static String MIN_VALID_START_TIME_STR;
     public final static String MAX_VALID_START_TIME_STR;
     public final static String MIN_VALID_BEDTIME_TIME_STR;
     public final static String MAX_VALID_BEDTIME_TIME_STR;
     public final static String MIN_VALID_END_TIME_STR;
     public final static String MAX_VALID_END_TIME_STR;
-    public final static int TIME_VALUE_NOT_SELECTED = 0;
+
+    private final static int MIN_START_TIME_INDEX;
+    private final static int MAX_START_TIME_INDEX;
+    private final static int MIN_BED_TIME_INDEX;
+    private final static int MAX_BED_TIME_INDEX;
+    private final static int MIN_END_TIME_INDEX;
+    private final static int MAX_END_TIME_INDEX;
 
     static {
-        START_TIME_LIST.add("05:00 PM");  // NUMBER = 1
-        START_TIME_LIST.add("06:00 PM");  // NUMBER = 2
-        START_TIME_LIST.add("07:00 PM");  // NUMBER = 3
-        START_TIME_LIST.add("08:00 PM");  // NUMBER = 4
-        START_TIME_LIST.add("09:00 PM");  // NUMBER = 5
-        START_TIME_LIST.add("10:00 PM");  // NUMBER = 6
-        START_TIME_LIST.add("11:00 PM");  // NUMBER = 7
-        START_TIME_LIST.add("12:00 AM");  // NUMBER = 8
-        START_TIME_LIST.add("01:00 AM");  // NUMBER = 9
-        START_TIME_LIST.add("02:00 AM");  // NUMBER = 10
-        START_TIME_LIST.add("03:00 AM");  // NUMBER = 11
+        TIME_LIST.add("05:00 PM");  // NUMBER = 1
+        TIME_LIST.add("06:00 PM");  // NUMBER = 2
+        TIME_LIST.add("07:00 PM");  // NUMBER = 3
+        TIME_LIST.add("08:00 PM");  // NUMBER = 4
+        TIME_LIST.add("09:00 PM");  // NUMBER = 5
+        TIME_LIST.add("10:00 PM");  // NUMBER = 6
+        TIME_LIST.add("11:00 PM");  // NUMBER = 7
+        TIME_LIST.add("12:00 AM");  // NUMBER = 8
+        TIME_LIST.add("01:00 AM");  // NUMBER = 9
+        TIME_LIST.add("02:00 AM");  // NUMBER = 10
+        TIME_LIST.add("03:00 AM");  // NUMBER = 11
+        TIME_LIST.add("04:00 AM");  // NUMBER = 12
+        NUMBER_LIST.add(1);
+        NUMBER_LIST.add(2);
+        NUMBER_LIST.add(3);
+        NUMBER_LIST.add(4);
+        NUMBER_LIST.add(5);
+        NUMBER_LIST.add(6);
+        NUMBER_LIST.add(7);
+        NUMBER_LIST.add(8);
+        NUMBER_LIST.add(9);
+        NUMBER_LIST.add(10);
+        NUMBER_LIST.add(11);
+        NUMBER_LIST.add(12);
 
-        START_NUMBER_LIST.add(1);
-        START_NUMBER_LIST.add(2);
-        START_NUMBER_LIST.add(3);
-        START_NUMBER_LIST.add(4);
-        START_NUMBER_LIST.add(5);
-        START_NUMBER_LIST.add(6);
-        START_NUMBER_LIST.add(7);
-        START_NUMBER_LIST.add(8);
-        START_NUMBER_LIST.add(9);
-        START_NUMBER_LIST.add(10);
-        START_NUMBER_LIST.add(11);
+        MIN_START_TIME_INDEX = 0;
+        MAX_START_TIME_INDEX = 10;
+        MIN_BED_TIME_INDEX = 0;
+        MAX_BED_TIME_INDEX = 11;
+        MIN_END_TIME_INDEX = 1;
+        MAX_END_TIME_INDEX = 11;
 
-        BED_TIME_LIST.add("05:00 PM");  // NUMBER = 1
-        BED_TIME_LIST.add("06:00 PM");  // NUMBER = 2
-        BED_TIME_LIST.add("07:00 PM");  // NUMBER = 3
-        BED_TIME_LIST.add("08:00 PM");  // NUMBER = 4
-        BED_TIME_LIST.add("09:00 PM");  // NUMBER = 5
-        BED_TIME_LIST.add("10:00 PM");  // NUMBER = 6
-        BED_TIME_LIST.add("11:00 PM");  // NUMBER = 7
-        BED_TIME_LIST.add("12:00 AM");  // NUMBER = 8
-        BED_TIME_LIST.add("01:00 AM");  // NUMBER = 9
-        BED_TIME_LIST.add("02:00 AM");  // NUMBER = 10
-        BED_TIME_LIST.add("03:00 AM");  // NUMBER = 11
-        BED_TIME_LIST.add("04:00 AM");  // NUMBER = 12
 
-        BED_NUMBER_LIST.add(1);
-        BED_NUMBER_LIST.add(2);
-        BED_NUMBER_LIST.add(3);
-        BED_NUMBER_LIST.add(4);
-        BED_NUMBER_LIST.add(5);
-        BED_NUMBER_LIST.add(6);
-        BED_NUMBER_LIST.add(7);
-        BED_NUMBER_LIST.add(8);
-        BED_NUMBER_LIST.add(9);
-        BED_NUMBER_LIST.add(10);
-        BED_NUMBER_LIST.add(11);
-        BED_NUMBER_LIST.add(12);
+        // these constants are initialized with the values from the TIME_LIST and NUMBER_LIST
+        // and using the indexes defined above
+        MIN_VALID_START_TIME = NUMBER_LIST.get(MIN_START_TIME_INDEX);
+        MAX_VALID_START_TIME = NUMBER_LIST.get(MAX_START_TIME_INDEX);
+        MIN_VALID_BEDTIME_TIME = NUMBER_LIST.get(MIN_BED_TIME_INDEX);
+        MAX_VALID_BEDTIME_TIME = NUMBER_LIST.get(MAX_BED_TIME_INDEX);
+        MIN_VALID_END_TIME = NUMBER_LIST.get(MIN_END_TIME_INDEX);
+        MAX_VALID_END_TIME = NUMBER_LIST.get(MAX_END_TIME_INDEX);
 
-        END_TIME_LIST.add("06:00 PM");  // NUMBER = 1
-        END_TIME_LIST.add("07:00 PM");  // NUMBER = 2
-        END_TIME_LIST.add("08:00 PM");  // NUMBER = 3
-        END_TIME_LIST.add("09:00 PM");  // NUMBER = 4
-        END_TIME_LIST.add("10:00 PM");  // NUMBER = 5
-        END_TIME_LIST.add("11:00 PM");  // NUMBER = 6
-        END_TIME_LIST.add("12:00 AM");  // NUMBER = 7
-        END_TIME_LIST.add("01:00 AM");  // NUMBER = 8
-        END_TIME_LIST.add("02:00 AM");  // NUMBER = 9
-        END_TIME_LIST.add("03:00 AM");  // NUMBER = 10
-        END_TIME_LIST.add("04:00 AM");  // NUMBER = 11
-
-        END_NUMBER_LIST.add(1);
-        END_NUMBER_LIST.add(2);
-        END_NUMBER_LIST.add(3);
-        END_NUMBER_LIST.add(4);
-        END_NUMBER_LIST.add(5);
-        END_NUMBER_LIST.add(6);
-        END_NUMBER_LIST.add(7);
-        END_NUMBER_LIST.add(8);
-        END_NUMBER_LIST.add(9);
-        END_NUMBER_LIST.add(10);
-        END_NUMBER_LIST.add(11);
-
-        // these constants are initialized with the values from the start and end of the list
-        MIN_VALID_START_TIME = START_NUMBER_LIST.get(0);
-        MAX_VALID_START_TIME = START_NUMBER_LIST.get(START_NUMBER_LIST.size()-1);
-        MIN_VALID_BEDTIME_TIME = BED_NUMBER_LIST.get(0);
-        MAX_VALID_BEDTIME_TIME = BED_NUMBER_LIST.get(BED_NUMBER_LIST.size()-1);
-        MIN_VALID_END_TIME = END_NUMBER_LIST.get(0);
-        MAX_VALID_END_TIME = END_NUMBER_LIST.get(END_NUMBER_LIST.size()-1);
-        MIN_VALID_START_TIME_STR = START_TIME_LIST.get(0);
-        MAX_VALID_START_TIME_STR = START_TIME_LIST.get(START_TIME_LIST.size()-1);
-        MIN_VALID_BEDTIME_TIME_STR = BED_TIME_LIST.get(0);
-        MAX_VALID_BEDTIME_TIME_STR = BED_TIME_LIST.get(BED_TIME_LIST.size()-1);
-        MIN_VALID_END_TIME_STR = END_TIME_LIST.get(0);
-        MAX_VALID_END_TIME_STR = END_TIME_LIST.get(END_TIME_LIST.size()-1);
+        MIN_VALID_START_TIME_STR = TIME_LIST.get(MIN_START_TIME_INDEX);
+        MAX_VALID_START_TIME_STR = TIME_LIST.get(MAX_START_TIME_INDEX);
+        MIN_VALID_BEDTIME_TIME_STR = TIME_LIST.get(MIN_BED_TIME_INDEX);
+        MAX_VALID_BEDTIME_TIME_STR = TIME_LIST.get(MAX_BED_TIME_INDEX);
+        MIN_VALID_END_TIME_STR = TIME_LIST.get(MIN_END_TIME_INDEX);
+        MAX_VALID_END_TIME_STR = TIME_LIST.get(MAX_END_TIME_INDEX);
     }
 
     private TimeMap(){}
 
     // returns the number that maps to timeStr or 0 if timeStr is not found
-    public static int getStartNumber(String timeStr){
+    public static int map(String timeStr){
 
-        for(int i = 0; i < START_TIME_LIST.size(); i++ ){
-            if(START_TIME_LIST.get(i).equals(timeStr)){
-                return START_NUMBER_LIST.get(i);
+        for(int i = 0; i < TIME_LIST.size(); i++ ){
+            if(TIME_LIST.get(i).equals(timeStr)){
+                return NUMBER_LIST.get(i);
             }
         }
         return 0;
     }
 
     // returns the time string that maps to number or "0" if number is not found
-    public static String getStartTime(Integer number){
+    public static String map(Integer number){
 
-        for(int i = 0; i < START_NUMBER_LIST.size(); i++ ){
-            if(START_NUMBER_LIST.get(i).equals(number)){
-                return START_TIME_LIST.get(i);
+        for(int i = 0; i < NUMBER_LIST.size(); i++ ){
+            if(NUMBER_LIST.get(i).equals(number)){
+                return TIME_LIST.get(i);
             }
         }
         return "0";
     }
 
-    // returns the number that maps to timeStr or 0 if timeStr is not found
-    public static int getBedNumber(String timeStr){
+    // get list of valid times for Start Times
+    public static ArrayList<String> getStartTimeList(){
 
-        for(int i = 0; i < START_TIME_LIST.size(); i++ ){
-            if(START_TIME_LIST.get(i).equals(timeStr)){
-                return START_NUMBER_LIST.get(i);
-            }
+        // copy the values from the TIME_LIST that are valid start times
+        ArrayList<String> timeList = new ArrayList<>();
+        for(int i = MIN_START_TIME_INDEX; i <= MAX_START_TIME_INDEX; i++ ){
+            timeList.add(TIME_LIST.get(i)) ;
         }
-        return 0;
+
+        return timeList;
     }
 
-    // returns the time string that maps to number or "0" if number is not found
-    public static String getBedTime(Integer number){
+    // get list of valid numbers for Start Times
+    public static ArrayList<Integer> getStartNumberList(){
 
-        for(int i = 0; i < START_NUMBER_LIST.size(); i++ ){
-            if(START_NUMBER_LIST.get(i).equals(number)){
-                return START_TIME_LIST.get(i);
-            }
+        // copy the values from the NUMBER_LIST that map to valid start times
+        ArrayList<Integer> numberList = new ArrayList<>();
+        for(int i = MIN_START_TIME_INDEX; i <= MAX_START_TIME_INDEX; i++ ){
+            numberList.add(NUMBER_LIST.get(i)) ;
         }
-        return "0";
+
+        return numberList;
     }
 
-    // returns the number that maps to timeStr or 0 if timeStr is not found
-    public static int getEndNumber(String timeStr){
+    // get list of valid times for Bed Times
+    public static ArrayList<String> getBedTimeList(){
 
-        for(int i = 0; i < START_TIME_LIST.size(); i++ ){
-            if(START_TIME_LIST.get(i).equals(timeStr)){
-                return START_NUMBER_LIST.get(i);
-            }
+        // copy the values from the TIME_LIST that are valid bed times
+        ArrayList<String> timeList = new ArrayList<>();
+        for(int i = MIN_BED_TIME_INDEX; i <= MAX_BED_TIME_INDEX; i++ ){
+            timeList.add(TIME_LIST.get(i)) ;
         }
-        return 0;
+
+        return timeList;
     }
 
-    // returns the time string that maps to number or "0" if number is not found
-    public static String getEndTime(Integer number){
+    // get list of valid numbers for Bed Times
+    public static ArrayList<Integer> getBedNumberList(){
 
-        for(int i = 0; i < START_NUMBER_LIST.size(); i++ ){
-            if(START_NUMBER_LIST.get(i).equals(number)){
-                return START_TIME_LIST.get(i);
-            }
+        // copy the values from the NUMBER_LIST that map to valid bed times
+        ArrayList<Integer> numberList = new ArrayList<>();
+        for(int i = MIN_BED_TIME_INDEX; i <= MAX_BED_TIME_INDEX; i++ ){
+            numberList.add(NUMBER_LIST.get(i)) ;
         }
-        return "0";
+
+        return numberList;
+    }
+
+    // get list of valid times for End Times
+    public static ArrayList<String> getEndTimeList(){
+
+        // copy the values from the TIME_LIST that are valid bed times
+        ArrayList<String> timeList = new ArrayList<>();
+        for(int i = MIN_END_TIME_INDEX; i <= MAX_END_TIME_INDEX; i++ ){
+            timeList.add(TIME_LIST.get(i)) ;
+        }
+
+        return timeList;
+    }
+
+    // get list of valid numbers for End Times
+    public static ArrayList<Integer> getEndNumberList(){
+
+        // copy the values from the NUMBER_LIST that map to valid end times
+        ArrayList<Integer> numberList = new ArrayList<>();
+        for(int i = MIN_END_TIME_INDEX; i <= MAX_END_TIME_INDEX; i++ ){
+            numberList.add(NUMBER_LIST.get(i)) ;
+        }
+
+        return numberList;
     }
 
 }
