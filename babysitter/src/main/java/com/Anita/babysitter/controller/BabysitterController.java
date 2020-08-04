@@ -57,7 +57,7 @@ public class BabysitterController {
         if("Invalid".equals(amount)){
             resultsMessage = "System Problem. Unable to calculate charges.";
         }else{
-            resultsMessage = "You should charge " + amount + " for this job";
+            resultsMessage = "You should charge " + amount + " for this job.";
         }
 
         model.addAttribute("errorMessage","");
