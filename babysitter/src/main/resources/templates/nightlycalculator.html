@@ -8,7 +8,7 @@
 <div  align="center">
     <h1>Calculate how much to charge</h1>
 
-    <div th:text="${errorMessage}" style="padding:5px"></div>
+    <div th:text="${errorMessage}" style="padding:10px:color:red;font-weight:bold"></div>
     <form action="nightlycalculator" method="post">
         <table cellpadding="5px">
             <tr>
@@ -17,6 +17,7 @@
                 </td>
                 <td>
                     <select name="startTime" id="startTime">
+                        <option value="0" selected>Select Start Time</option>
                         <option
                                 th:each="key : ${T(com.Anita.babysitter.util.TimeMap).START_TIME_LIST}"
                                 th:value="${T(com.Anita.babysitter.util.TimeMap).getStartNumber(key)}"
@@ -31,6 +32,7 @@
                 </td>
                 <td>
                     <select name="bedTime"  id="bedTime">
+                        <option value="0" selected>Select Bed Time</option>
                         <option
                                 th:each="key : ${T(com.Anita.babysitter.util.TimeMap).BED_TIME_LIST}"
                                 th:value="${T(com.Anita.babysitter.util.TimeMap).getBedNumber(key)}"
@@ -45,6 +47,7 @@
                 </td>
                 <td>
                     <select name="endTime" id="endTime" >
+                        <option value="0" selected>Select End Time</option>
                         <option
                                 th:each="key : ${T(com.Anita.babysitter.util.TimeMap).END_TIME_LIST}"
                                 th:value="${T(com.Anita.babysitter.util.TimeMap).getEndNumber(key)}"
@@ -59,8 +62,8 @@
         </div>
 
         <div style="padding:5px">
-            <p1>If child was asleep when you arrived, use arrival time for bedtime.</p1>
-            <p1>If child was still up when you left, use time you left for bedtime.</p1>
+            <p>If child was asleep when you arrived, use arrival time for bedtime.</p>
+            <p>If child was still up when you left, use time you left for bedtime.</p>
         </div>
 
 

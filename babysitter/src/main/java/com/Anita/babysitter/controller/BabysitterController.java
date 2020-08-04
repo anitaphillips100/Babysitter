@@ -53,8 +53,15 @@ public class BabysitterController {
             return ViewNames.NIGHTLY_CALCULATOR;
         }
 
+        String resultsMessage = "";
+        if("Invalid".equals(amount)){
+            resultsMessage = "System Problem. Unable to calculate charges.";
+        }else{
+            resultsMessage = "You should charge " + amount + " for this job";
+        }
+
         model.addAttribute("errorMessage","");
-        model.addAttribute("amount", amount);
+        model.addAttribute("resultsMessage", resultsMessage);
 
         return ViewNames.NIGHTLY_RESULTS;
     }

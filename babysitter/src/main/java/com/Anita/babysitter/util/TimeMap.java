@@ -7,7 +7,7 @@ public final class TimeMap {
     // class that maps a time string to a number using 2 corresponding ArrayList's.
     // *_TIME_LIST and *_NUMBER_LIST are corresponding ArrayList's where the ith
     // element of *_TIME_LIST corresponds to the ith element of *_NUMBER_LIST;
-    // These lista hold the valid times for start, bedtime, and end times.
+    // These lists hold the valid times for start, bedtime, and end times.
 
     // This class also contains constants used to define valid time ranges
 
@@ -29,6 +29,7 @@ public final class TimeMap {
     public final static String MAX_VALID_BEDTIME_TIME_STR;
     public final static String MIN_VALID_END_TIME_STR;
     public final static String MAX_VALID_END_TIME_STR;
+    public final static int TIME_VALUE_NOT_SELECTED = 0;
 
     static {
         START_TIME_LIST.add("05:00 PM");  // NUMBER = 1
@@ -41,7 +42,8 @@ public final class TimeMap {
         START_TIME_LIST.add("12:00 AM");  // NUMBER = 8
         START_TIME_LIST.add("01:00 AM");  // NUMBER = 9
         START_TIME_LIST.add("02:00 AM");  // NUMBER = 10
-        START_TIME_LIST.add("03:00 AM");  // NUMBER = 11]
+        START_TIME_LIST.add("03:00 AM");  // NUMBER = 11
+
         START_NUMBER_LIST.add(1);
         START_NUMBER_LIST.add(2);
         START_NUMBER_LIST.add(3);
@@ -121,7 +123,7 @@ public final class TimeMap {
 
     private TimeMap(){}
 
-    // returns the number that maps to timeStr or -1 if timeStr is not found
+    // returns the number that maps to timeStr or 0 if timeStr is not found
     public static int getStartNumber(String timeStr){
 
         for(int i = 0; i < START_TIME_LIST.size(); i++ ){
@@ -129,10 +131,10 @@ public final class TimeMap {
                 return START_NUMBER_LIST.get(i);
             }
         }
-        return -1;
+        return 0;
     }
 
-    // returns the time string that maps to number or "-1" if number is not found
+    // returns the time string that maps to number or "0" if number is not found
     public static String getStartTime(Integer number){
 
         for(int i = 0; i < START_NUMBER_LIST.size(); i++ ){
@@ -140,10 +142,10 @@ public final class TimeMap {
                 return START_TIME_LIST.get(i);
             }
         }
-        return "-1";
+        return "0";
     }
 
-    // returns the number that maps to timeStr or -1 if timeStr is not found
+    // returns the number that maps to timeStr or 0 if timeStr is not found
     public static int getBedNumber(String timeStr){
 
         for(int i = 0; i < START_TIME_LIST.size(); i++ ){
@@ -151,10 +153,10 @@ public final class TimeMap {
                 return START_NUMBER_LIST.get(i);
             }
         }
-        return -1;
+        return 0;
     }
 
-    // returns the time string that maps to number or "-1" if number is not found
+    // returns the time string that maps to number or "0" if number is not found
     public static String getBedTime(Integer number){
 
         for(int i = 0; i < START_NUMBER_LIST.size(); i++ ){
@@ -162,10 +164,10 @@ public final class TimeMap {
                 return START_TIME_LIST.get(i);
             }
         }
-        return "-1";
+        return "0";
     }
 
-    // returns the number that maps to timeStr or -1 if timeStr is not found
+    // returns the number that maps to timeStr or 0 if timeStr is not found
     public static int getEndNumber(String timeStr){
 
         for(int i = 0; i < START_TIME_LIST.size(); i++ ){
@@ -173,10 +175,10 @@ public final class TimeMap {
                 return START_NUMBER_LIST.get(i);
             }
         }
-        return -1;
+        return 0;
     }
 
-    // returns the time string that maps to number or "-1" if number is not found
+    // returns the time string that maps to number or "0" if number is not found
     public static String getEndTime(Integer number){
 
         for(int i = 0; i < START_NUMBER_LIST.size(); i++ ){
@@ -184,7 +186,7 @@ public final class TimeMap {
                 return START_TIME_LIST.get(i);
             }
         }
-        return "-1";
+        return "0";
     }
 
 }
