@@ -19,8 +19,8 @@ public class CalculatorServiceTest {
     // ======================================================
     // test correct amount is returned for valid input data
     // ======================================================
-    @Test
     // arrive before child's bedtime and before midnight, leave after midnight
+    @Test
     public void testValidInputData1(){
         // given
         TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("05:00 PM"), TimeMap.getBedNumber("09:00 PM"), TimeMap.getEndNumber("02:00 AM") );
@@ -37,8 +37,24 @@ public class CalculatorServiceTest {
         assertEquals("104.00", amount);
     }
 
-    // TODO: these tests need to be implemented
     // arrive at child's bedtime and before midnight, leave after midnight
+    @Test
+    public void testValidInputData2(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.getStartNumber("09:00 PM"), TimeMap.getBedNumber("09:00 PM"), TimeMap.getEndNumber("02:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("104.00", amount);
+    }
+    // TODO: these tests need to be implemented
     // arrive after child's bedtime and before midnight, leave after midnight
 
     // arrive before child's bedtime and at midnight, leave after midnight
