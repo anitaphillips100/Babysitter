@@ -3,6 +3,7 @@ package com.Anita.babysitter.service;
 import com.Anita.babysitter.model.TimeRecord;
 import com.Anita.babysitter.util.CalculatorInvalidInputException;
 import com.Anita.babysitter.util.ErrorMessages;
+import com.Anita.babysitter.util.Rates;
 import com.Anita.babysitter.util.TimeMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,18 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculatorServiceImpl implements CalculatorService {
 
-    // For now hourly rates are in whole dollars
-    private static final int EVENING_RATE = 12;
-    private static final int BED_TIME_RATE = 8;
-    private static final int AFTER_MIDNIGHT_RATE = 16;
     private static final int EVENING_START = TimeMap.MIN_VALID_START_TIME;
     private static final int AFTER_MIDNIGHT_START = TimeMap.map("12:00 AM");
 
 
     @Override
     public String calculateNightlyAmount(TimeRecord timeRecord) throws CalculatorInvalidInputException {
-
-
 
         log.info("calculate for time record: " + timeRecord.toString() );
 
@@ -43,17 +38,18 @@ public class CalculatorServiceImpl implements CalculatorService {
 
         if(startTime >= AFTER_MIDNIGHT_START) {
             // all hours will be charged at the after midnight rate
-            amount = Integer.toString(totalHours * AFTER_MIDNIGHT_RATE);
+            amount = Integer.toString(totalHours * Rates.AFTER_MIDNIGHT_RATE);
         }else if(startTime >= bedTime){
             // child was in bed when babysitter arrived
             if(endTime <= AFTER_MIDNIGHT_START){
                 // all hours are at the bed time rate
-                amount = Integer.toString(totalHours * BED_TIME_RATE);
+                amount = Integer.toString(totalHours * Rates.BED_TIME_RATE);
             }else{
                 // combination of bed time hours and after midnight hours
                 bedTimeHours = AFTER_MIDNIGHT_START - startTime;
                 afterMidnightHours = endTime - AFTER_MIDNIGHT_START;
-                amount = Integer.toString((bedTimeHours*BED_TIME_RATE)+(afterMidnightHours*AFTER_MIDNIGHT_RATE));
+                amount = Integer.toString((bedTimeHours*Rates.BED_TIME_RATE)
+                        + (afterMidnightHours*Rates.AFTER_MIDNIGHT_RATE));
             }
         }else if( bedTime >= endTime){
             // child was not in bed at all
@@ -61,11 +57,12 @@ public class CalculatorServiceImpl implements CalculatorService {
                 // combination of evening hours and after midnight hours
                 eveningHours = AFTER_MIDNIGHT_START - startTime;
                 afterMidnightHours = endTime - AFTER_MIDNIGHT_START;
-                amount = Integer.toString((eveningHours*EVENING_RATE)+(afterMidnightHours*AFTER_MIDNIGHT_RATE));
+                amount = Integer.toString((eveningHours*Rates.EVENING_RATE)
+                        + (afterMidnightHours*Rates.AFTER_MIDNIGHT_RATE));
             }else{
                 // all hours are at the evening rate
                 eveningHours = endTime - startTime;
-                amount = Integer.toString(eveningHours*EVENING_RATE);
+                amount = Integer.toString(eveningHours*Rates.EVENING_RATE);
             }
         }else{
             // there will be some bed time hours
@@ -73,15 +70,17 @@ public class CalculatorServiceImpl implements CalculatorService {
                 // combination of evening and bedtime hours
                 eveningHours = bedTime - startTime;
                 bedTimeHours = endTime - bedTime;
-                amount = Integer.toString((eveningHours*EVENING_RATE)+(bedTimeHours*BED_TIME_RATE));
+                amount = Integer.toString((eveningHours*Rates.EVENING_RATE)
+                        + (bedTimeHours*Rates.BED_TIME_RATE));
             }else{
                 // combination of time periods
                 afterMidnightHours = endTime - AFTER_MIDNIGHT_START;
                 bedTimeHours = AFTER_MIDNIGHT_START - bedTime;
                 eveningHours = bedTime - startTime;
-                amount = Integer.toString((afterMidnightHours*AFTER_MIDNIGHT_RATE)
-                        +(bedTimeHours*BED_TIME_RATE)+
-                        (eveningHours*EVENING_RATE));
+                amount = Integer.toString((afterMidnightHours*Rates.AFTER_MIDNIGHT_RATE)
+                                         + (bedTimeHours*Rates.BED_TIME_RATE)
+                                         + (eveningHours*Rates.EVENING_RATE)
+                         );
             }
         }
         return amount+".00";

@@ -8,8 +8,12 @@ public final class TimeMap {
     // TIME_LIST and NUMBER_LIST are corresponding ArrayList's where the ith
     // element of TIME_LIST corresponds to the ith element of NUMBER_LIST;
     // These lists hold the valid times for start, bedtime, and end times.
-    // Times (in format 'HH:MM PM') are mapped to numbers to simply
+    // Times (in format 'HH:MM PM') are mapped to numbers to simplify
     // calculations.
+    //
+    // Note: this implementation uses ArrayLists instead of a java.util.Map
+    // so that it can be used by the UI Views to build drop down menus with
+    // valid time periods
 
     // This class also contains constants used to define valid time ranges
 
@@ -38,6 +42,10 @@ public final class TimeMap {
     private final static int MAX_END_TIME_INDEX;
 
     static {
+        // =====================================================================
+        // WARNING: Be sure to keep Index Constants (below) in-sync
+        // if TIME_LIST and NUMBER_LIST change
+        // ======================================================================
         TIME_LIST.add("05:00 PM");  // NUMBER = 1
         TIME_LIST.add("06:00 PM");  // NUMBER = 2
         TIME_LIST.add("07:00 PM");  // NUMBER = 3
@@ -63,6 +71,10 @@ public final class TimeMap {
         NUMBER_LIST.add(11);
         NUMBER_LIST.add(12);
 
+        // Index Constants for TIME_LIST and NUMBER_LIST
+        // =====================================================================
+        // WARNING: Be sure to keep in-sync if TIME_LIST and NUMBER_LIST change
+        // ======================================================================
         MIN_START_TIME_INDEX = 0;
         MAX_START_TIME_INDEX = 10;
         MIN_BED_TIME_INDEX = 0;

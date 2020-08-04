@@ -1,9 +1,11 @@
 package com.Anita.babysitter.util;
 
 public final class Rates {
-    final static String EVENING_RATE = "12.00";
-    final static String BEDTIME_RATE = "8.00";
-    final static String AFTER_MIDNIGHT_RATE = "16.00";
+
+    // For now hourly rates are in whole dollars
+    public static final int EVENING_RATE = 12;
+    public static final int BED_TIME_RATE = 8;
+    public static final int AFTER_MIDNIGHT_RATE = 16;
 
     private Rates() {}
 }

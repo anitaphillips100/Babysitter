@@ -3,6 +3,10 @@ package com.Anita.babysitter.model;
 import com.Anita.babysitter.util.TimeMap;
 
 public class TimeRecord {
+    // ==================================================================================================
+    // See comments static initialization code from the TimeMap class
+    // to understand how times values are stored
+    // ==================================================================================================
 
     private int startTime;
     private int bedTime;
