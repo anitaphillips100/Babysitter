@@ -16,9 +16,9 @@ public class CalculatorServiceTest {
     private CalculatorService service = new CalculatorServiceImpl();
 
 
-    // ======================================================
-    // test correct amount is returned for valid input data
-    // ======================================================
+    // ===========================================================
+    // VALID INPUT DATA TESTS: correct amount should be returned
+    // ===========================================================
     // arrive before child's bedtime and before midnight, leave after midnight
     @Test
     public void testValidInputData1(){
@@ -111,19 +111,135 @@ public class CalculatorServiceTest {
         assertEquals("64.00", amount);
     }
 
-    // TODO: these tests need to be implemented
     // arrive after child's bedtime and at midnight, and leave after midnight
+    @Test
+    public void testValidInputData6(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("12:00 AM"), TimeMap.map("08:00 PM"), TimeMap.map("04:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("64.00", amount);
+    }
+
 
     // arrive before child's bedtime and after midnight, leave after midnight
+    @Test
+    public void testValidInputData7(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("12:00 AM"), TimeMap.map("01:00 AM"), TimeMap.map("04:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("64.00", amount);
+    }
+
     // arrive at child's bedtime and after midnight, and leave after midnight
+    @Test
+    public void testValidInputData8(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("01:00 AM"), TimeMap.map("01:00 AM"), TimeMap.map("04:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("48.00", amount);
+    }
+
     // arrive after child's bedtime and after midnight, and leave after midnight
+    @Test
+    public void testValidInputData9(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("01:00 AM"), TimeMap.map("12:00 AM"), TimeMap.map("04:00 AM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("48.00", amount);
+    }
 
     // arrive before child's bedtime and before midnight, leave before midnight
+    @Test
+    public void testValidInputData10(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("05:00 PM"), TimeMap.map("09:00 PM"), TimeMap.map("10:00 PM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("56.00", amount);
+    }
+
     // arrive at child's bedtime and before midnight, leave before midnight
+    @Test
+    public void testValidInputData11(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("09:00 PM"), TimeMap.map("09:00 PM"), TimeMap.map("10:00 PM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("8.00", amount);
+    }
+
     // arrive after child's bedtime and before midnight, leave before midnight
+    @Test
+    public void testValidInputData12(){
+        // given
+        TimeRecord timeRecord = new TimeRecord( TimeMap.map("10:00 PM"), TimeMap.map("09:00 PM"), TimeMap.map("11:00 PM") );
+
+        // when
+        String amount = "";
+        try {
+            amount = service.calculateNightlyAmount(timeRecord);
+        }catch(Exception e){
+            fail("Unexpected exception when passing valid data: " + e.getMessage());
+        }
+
+        // then
+        assertEquals("8.00", amount);
+    }
 
     // ==============================================================================
-    // test that exception is thrown by CalculatorService when input data is invalid
+    // INVALID INPUT DATA TESTS: exception should be thrown by CalculatorService
     // ==============================================================================
 
     // out of range arrival time
